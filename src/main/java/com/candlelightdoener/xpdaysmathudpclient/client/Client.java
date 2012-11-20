@@ -2,6 +2,7 @@ package com.candlelightdoener.xpdaysmathudpclient.client;
 
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.net.*;
 
 /**
@@ -43,7 +44,7 @@ public class Client {
         }
     }
 
-    private void loopUntilShutdown() throws Exception {
+    private void loopUntilShutdown() throws IOException {
         while (true) {
             byte[] incoming = receive();
             MessageHandler handler = new MessageHandler(incoming);
@@ -56,7 +57,7 @@ public class Client {
         }
     }
 
-    private byte[] receive() throws Exception {
+    private byte[] receive() throws IOException {
         byte[] incomingMessagePlaceholder = new byte[MAX_INCOMING_PACKET_SIZE];
         DatagramPacket incomingPacket = createPacket(incomingMessagePlaceholder);
 
@@ -66,7 +67,7 @@ public class Client {
         return incomingPacket.getData();
     }
 
-    private void reply(byte[] outgoingMessage) throws Exception {
+    private void reply(byte[] outgoingMessage) throws IOException {
         DatagramPacket outgoingPacket = createPacket(outgoingMessage);
 
         socket.send(outgoingPacket);
